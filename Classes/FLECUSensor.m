@@ -433,7 +433,19 @@ static MultiSensorDescriptor g_sensorDescriptorTable[] = {
 		0x4E,
 		{ "Time Since Trouble Codes Cleared", "DTC Cleared Time", "min", 0, 65535, NULL, INT_MAX, INT_MAX, &calcTime, NULL },
 		{ NULL, NULL, NULL, INT_MAX, INT_MAX, NULL, INT_MAX, INT_MAX, NULL, NULL }
-	}	
+	},
+
+    //Custom CAN pID
+    {
+        0x091,
+        { "VSA_LON_G", "VSA", NULL, INT_MAX, INT_MAX, NULL, INT_MAX, INT_MAX, NULL, NULL},
+        { }
+    },
+    {
+        0x183,
+        { "AHB_REQ_PRESSURE", "ESB", "kPa", INT_MAX, INT_MAX, NULL, INT_MAX, INT_MAX, NULL, NULL},
+        { }
+    }
 };
 
 #pragma mark -
