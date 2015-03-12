@@ -434,7 +434,7 @@ static MultiSensorDescriptor g_sensorDescriptorTable[] = {
 		{ "Time Since Trouble Codes Cleared", "DTC Cleared Time", "min", 0, 65535, NULL, INT_MAX, INT_MAX, &calcTime, NULL },
 		{ NULL, NULL, NULL, INT_MAX, INT_MAX, NULL, INT_MAX, INT_MAX, NULL, NULL }
 	},
-
+    
     //Custom CAN pID
     {
         0x091,
@@ -472,6 +472,9 @@ static MultiSensorDescriptor g_sensorDescriptorTable[] = {
 	if(pid >= 0x0 && pid <= 0x4E) {
 		sensor			= [[FLECUSensor alloc] initWithDescriptor:&g_sensorDescriptorTable[pid]];
 	}
+    if (pid == 0x091) {
+        sensor			= [[FLECUSensor alloc] initWithDescriptor:&g_sensorDescriptorTable[pid]];
+    }
 	
 	return [sensor autorelease];
 }

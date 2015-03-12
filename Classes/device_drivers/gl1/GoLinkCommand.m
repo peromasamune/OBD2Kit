@@ -72,6 +72,9 @@ const GoLinkRequestFrame g_VehicleBusTypeRequestFrame = {
 	GoLinkCommand* cmd	= [[GoLinkCommand alloc] init];
 	cmd.mode			= (mode >= 0x01 && mode <= 0x0B) ? mode : 0x01;
 	cmd.pid				= (pid >= 0x00 && pid <= 0x4E) ? pid : 0x01;
+    if (cmd.pid == 0x091) {
+        cmd.pid = pid;
+    }
 	cmd.data			= data;
 	
 	GoLinkRequestFrame frame	= {
@@ -108,6 +111,26 @@ const GoLinkRequestFrame g_VehicleBusTypeRequestFrame = {
 			}
 		}
 	}
+    
+    if (pid == 0x091) {
+        frame.data[1]		= pid;
+        frame.header.length	= 2;
+        
+        if (cmd.data) {
+            const uint8_t* dataBytes= [cmd.data bytes];
+            NSInteger dataLength	= [cmd.data length];
+            
+            if (dataLength <= 0x06) {
+                frame.header.length += dataLength;
+                memcpy(&(frame.data[2]), dataBytes, dataLength);
+            }
+            else {
+                FLERROR(@"Invalid command data specified", nil)
+                [cmd release];
+                return nil;
+            }
+        }
+    }
 	
 	[cmd setRequestFrame:&frame];
 	
